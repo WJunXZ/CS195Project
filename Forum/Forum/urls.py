@@ -19,5 +19,6 @@ import post.views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', post.views.postPage),
+    path('', post.views.index),
+    path('post/', post.views.postPage),
 ]
