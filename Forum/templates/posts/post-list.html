@@ -1,0 +1,141 @@
+{% extends 'base.html'%}
+
+{%block content%}
+<style>
+    .link{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index = 1;
+    }
+
+    .post-button{
+        float: right;
+        text-align: right;
+    }
+
+</style>
+
+{% if user.is_authenticated %}
+<section id="new-post">
+    <form action="{% url 'newpost' %}" method="POST">
+        {% csrf_token %}
+        <input type="hidden" name="user_id" value="{{user.id}}">
+        <input type="hidden" name="username" value="{{user.username}}">
+
+       
+                <div class="post-button p-1">
+                    <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#newPostModal">
+                        Write a New Post!
+                    </button>
+                </div>
+        
+                <div class="modal" id="newPostModal" tabindex="-1" aria-labelledby="newPostModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalClose">Create Your Post</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="title">Title of Your Post</label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Content</label>
+                                <textarea class="form-control" id="postcontent" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+</section>
+{%endif%}
+
+<section id="posts-breadcrumb">
+    <div class="nav1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{% url 'index' %}">Home</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Posts</li>
+            </ol>
+        </nav>
+    </div>
+</section>
+
+<br>
+
+<section id="post-cards">
+    <div class="row p-2 m-"3"">
+        {% if posts %}
+            {% for post in posts%}
+                <div class="col-sm-12 p-2">
+                    <div class="card">
+                        <h3 class="card-title">{{post.title}}</h3>
+                        <h5 class="card-body">{{post.content}}</h5>
+                        <a href="{% url 'post' post.id%}">
+                            <span class="link"></span>
+                        </a>
+                    </div>
+                </div>
+            {%endfor%}
+
+        {% else %}
+            <div class="col-md-12">
+                <p>No Posts Available</p>
+            </div>
+        {% endif %}
+    </div>
+    <nav aria-label="Page navigation example">
+        <div class="row">
+            <div class="col-md-12 m-2">
+                <nav aria-label="Page Nav">
+                    {% if posts.has_other_pages %}
+                        <ul class="pagination">
+                            {% if posts.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{posts.previous_page_number}}" tabindex="-1" aria-disabled="false">Previous</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                            {% endif %}
+
+                            {% for i in posts.paginator.page_range %}
+                                {% if posts.number == i %}
+                                    <li class="page-item active">
+                                        <a class="page-link">{{i}}</a>
+                                    </li>
+                                
+                                {%else%}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{i}}">{{i}}</a>
+                                    </li>
+                                {%endif%}
+                            {% endfor %}
+
+                            {% if posts.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{posts.next_page_number}}">Next</a>
+                                </li>
+                            {%else%}
+                                <li class="page-item disabled">
+                                    <a class="page-link" aria-disabled="true">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </nav>
+</section>
+{%endblock%}
