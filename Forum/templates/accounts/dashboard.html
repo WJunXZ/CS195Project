@@ -1,0 +1,43 @@
+{%extends 'base.html'%}}
+
+{%block content%}
+<style>
+    .link{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index = 1;
+    }
+</style>
+
+<h1>Welcome to your post dashboard: {{name}}</h1>
+
+<section id="post-cards">
+    <div class="row p-2 m-2">
+        {% if posts %}
+            {% for post in posts%}
+               
+                <div class="col-sm-12 p-2">
+                    
+                    <div class="card">
+                        
+                        <h3 class="card-title" id="dash-post">{{post.title}}</h3>
+                        <h5 class="card-body">{{post.content}}</h5>
+                        <a href="{% url 'post' post.id%}">
+                            <span class="link"></span>
+                        </a>
+                        {% comment %} <a href="{% url 'post' post.id%}" class="btn btn-primary">View this Post!</a> {% endcomment %}
+                    </div>
+                </div>
+            {%endfor%}
+
+        {% else %}
+            <div class="col-md-12">
+                <p>No Posts Available</p>
+            </div>
+        {% endif %}
+    </div>
+
+{%endblock%}

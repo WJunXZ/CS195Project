@@ -1,0 +1,67 @@
+{%extends 'base.html'%}
+
+
+{% block content %}
+<style>
+    .link{
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        z-index = 1;
+    }
+</style>
+
+
+<section id="postsearch">
+    <div class="container-text-center">
+        <div class="post-search p-5">
+            <div class="overlay p-5">
+                <h1 id="search_text" class="d-4 text-center">
+                    Make Another Search
+                </h1>
+                <div class="search">
+                    <form action="{%url 'search'%}">
+                        <div class="row">
+                            <div class="col">
+                                <input type="text" name="query" class="form-control" placeholder="Enter your search term here" value="{{values.query}}" aria-label="query">
+                            </div>
+                            <div class="col">
+                                <input type="text" name="author" class="form-control" placeholder="Enter the user (optional)" value="{{values.author}}" aria-label="author">
+                            </div>
+                        </div>
+                        <div class="row p-3">
+                            <button type="submit" class="btn btn-primary">GO</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="search-result":>
+    <div class="row p-2 m-2">
+        {% if posts %}
+            {% for post in posts%}
+                <div class="col-sm-12 p-2">
+                    <div class="card">
+                        <h3 class="card-title">{{post.title}}</h3>
+                        <h2 class="card-subtitle">{{post.user.username}}</h2>
+                        <h5 class="card-body">{{post.content}}</h5>
+                        <a href="{% url 'post' post.id%}">
+                            <span class="link"></span>
+                        </a>
+                    </div>
+                </div>
+            {%endfor%}
+
+        {% else %}
+            <div class="col-md-12">
+                <p>No Posts Available</p>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{%endblock%}
