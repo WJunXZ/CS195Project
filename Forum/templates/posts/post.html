@@ -10,4 +10,114 @@
         </div>
     </div>
 </div>
+
+{% if user.is_authenticated %}
+<section id="new-comment">
+    <form action="{%url 'newcomment'%}" method="POST" id="comment-submit">
+        {% csrf_token %}
+                <input type="hidden" name="post_id" value="{{post.pk}}">
+
+
+                <div class="post-button p-1">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#newPostModal">
+                        Write a new Comment!
+                    </button>
+                </div>
+        
+                <div class="modal fade" id="newPostModal" tabindex="-1" aria-labelledby="newModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="modalClose">Comment on this!</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="title">Title of Your Comment</label>
+                                <input type="text" name="title" class="form-control" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Content</label>
+                                <textarea class="form-control" name="commentcontent" rows="3" required></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit"class="btn btn-primary">Submit</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                {%else%}
+                <p>Login to make a new comment</p>
+
+                {%endif%}         
+</section>
+
+<section id="comment-cards">
+    <div class="row p-2 m-"3"">
+        {% if comments %}
+            {% for comment in comments%}
+                <div class="col-sm-12 p-2">
+                    <div class="card">
+                        <h3 class="card-title">{{comment.title}}</h3>
+                        <h5 class="card-body">{{comment.content}}</h5>
+                    </div>
+                </div>
+            {%endfor%}
+
+        {% else %}
+            <div class="col-md-12">
+                <p>No Comments Available</p>
+            </div>
+        {% endif %}
+    </div>
+    <nav aria-label="Page navigation example">
+        <div class="row">
+            <div class="col-md-12 m-2">
+                <nav aria-label="Page Nav">
+                    {% if comments.has_other_pages %}
+                        <ul class="pagination">
+                            {% if comments.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{comments.previous_page_number}}" tabindex="-1" aria-disabled="false">Previous</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                            {% endif %}
+
+                            {% for i in comments.paginator.page_range %}
+                                {% if comments.number == i %}
+                                    <li class="page-item active">
+                                        <a class="page-link">{{i}}</a>
+                                    </li>
+                                
+                                {%else%}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{i}}">{{i}}</a>
+                                    </li>
+                                {%endif%}
+                            {% endfor %}
+
+                            {% if comments.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="?page={{comments.next_page_number}}">Next</a>
+                                </li>
+                            {%else%}
+                                <li class="page-item disabled">
+                                    <a class="page-link" aria-disabled="true">Next</a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                </nav>
+            </div>
+        </div>
+    </nav>
+</section>
+
+
+
 {% endblock %}

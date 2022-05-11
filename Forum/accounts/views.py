@@ -2,6 +2,7 @@ from django.shortcuts import redirect, render
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
 from posts.models import Post
+from django.contrib.auth import logout
 
 # Create your views here.
 
@@ -44,7 +45,7 @@ def login(request):
         
         if user is not None:
             auth.login(request, user)
-            messages.success(request, "Succesfully Logged In")
+            messages.add_message(request, messages.SUCCESS, "Succesfully Logged In")
             return redirect('dashboard')
         else:
             messages.error(request, 'Invalid Credentials')
@@ -66,5 +67,11 @@ def dashboard(request):
     
     return render(request, 'accounts/dashboard.html', context)
 
-def logout(request):
+def logout_view(request):
+    logout(request)
     return redirect('index')
+    # if request.method == "POST":
+    #     auth.logout(request)
+    #     messages.add_message(request, messages.SUCCESS, "Succesfully Logged Out")
+    #     return redirect('index')
+    # return redirect('posts')

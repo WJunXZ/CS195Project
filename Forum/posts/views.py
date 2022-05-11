@@ -1,11 +1,13 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, redirect, render
 from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator
 
 from .models import Post
+from comments.models import Comment
 from django.contrib.auth.models import User
 
 def index(request):
-    posts = Post.objects.order_by('-date_posted')
+    posts = Post.objects.order_by('-id')
     
     paginator = Paginator(posts, 5)
     page_number = request.GET.get('page')
@@ -21,9 +23,11 @@ def index(request):
     
 def post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
+    comments = Comment.objects.filter(original_post=post_id)
     
     context = {
-        'post': post
+        'post': post,
+        'comments': comments
     }
     
     return render(request, 'posts/post.html', context)
@@ -52,4 +56,12 @@ def search(request):
 
 
 def newpost(request):
-    return redirect('post/1')
+    if request.method == 'POST':
+        title = request.POST['title']
+        content = request.POST['postcontent']
+        
+        post = Post(user = request.user, title=title, content = content)
+        post.save()
+        
+        url = '' + str(post.pk)
+        return HttpResponseRedirect(url)
