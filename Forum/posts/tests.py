@@ -62,7 +62,8 @@ class SearchFormTest(LiveServerTestCase):
    
     def testSearch(self):
         
-        self.selenium.get('http://127.0.0.1:8000/')
+        #self.selenium.get('http://127.0.0.1:8000/')
+        self.selenium.get('%s%s' % (self.live_server_url))
 
         user = User.objects.create(username='testuser', password='test')
 
@@ -96,14 +97,14 @@ class SearchFormTest(LiveServerTestCase):
 
         time.sleep(5)
 
-        query.send_keys('wild')
+        query.send_keys('Search Test')
         #author.send_keys('testuser')
         submit.send_keys(Keys.RETURN)
 
         time.sleep(2)
 
         try:
-            assert 'things are about to get wild' in self.selenium.page_source
+            assert 'Search Test Post' in self.selenium.page_source
         except AssertionError:
             print('The post was found')
 
@@ -114,6 +115,7 @@ class AuthenticationTest(LiveServerTestCase):
     @classmethod
     def setUpClass(cls) -> None:
         super().setUpClass()
+        User.objects.create_user(username='test', password='pw')
         options = FirefoxOptions()
         cls.selenium = webdriver.Firefox(options=options,executable_path=r"C:\Users\lenna\Documents\geckodriver-v0.31.0-win64(1)\geckodriver.exe")
 
@@ -123,15 +125,16 @@ class AuthenticationTest(LiveServerTestCase):
         super().tearDownClass()
 
     def LoginTestRealUser(self):
-        self.selenium.get("http://127.0.0.1:8000/accounts/login")
+        #self.selenium.get("http://127.0.0.1:8000/accounts/login")
+        self.selenium.get('%s%s' % (self.live_server_url, '/accounts/login'))
 
 
         username = self.selenium.find_element_by_name('username')
         password = self.selenium.find_element_by_name('password')
         loginbutton = self.selenium.find_element_by_class_name('btn')
 
-        username.send_keys('lenni')
-        password.send_keys('lenni')
+        username.send_keys('test')
+        password.send_keys('pw')
 
         time.sleep(5)
 
@@ -144,7 +147,8 @@ class AuthenticationTest(LiveServerTestCase):
         time.sleep(2)
 
     def LoginTestFakeUser(self):
-        self.selenium.get("http://127.0.0.1:8000/accounts/login")
+        #self.selenium.get("http://127.0.0.1:8000/accounts/login")
+        self.selenium.get('%s%s' % (self.live_server_url, '/accounts/login'))
 
 
         username = self.selenium.find_element_by_name('username')
