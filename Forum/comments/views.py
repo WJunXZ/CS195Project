@@ -5,6 +5,12 @@ from posts.models import Post
 from django.http import HttpResponse
 # Create your views here.
 
+"""
+Summary
+Function Name: new_comment
+Description: Takes a users passed in info and creates a new comment object in the DB
+"""
+
 def new_comment(request):
     if request.method=="POST":
         title = request.POST['title']

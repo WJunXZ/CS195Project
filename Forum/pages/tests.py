@@ -1,6 +1,8 @@
 from django.test import TestCase
 import unittest
 from django.test import Client
+from posts.models import Post
+from django.contrib.auth.models import User
 # Create your tests here.
 
 
@@ -16,7 +18,7 @@ class PostViewTest(unittest.TestCase):
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)
 
-class AboutViewTest(unittest.TestCase):
+""" class AboutViewTest(unittest.TestCase):
     def setUp(self):
         # Every test needs a client.
         self.client = Client()
@@ -26,16 +28,16 @@ class AboutViewTest(unittest.TestCase):
         response = self.client.get('/about')
 
         # Check that the response is 200 OK.
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200) """
 
 class PostThreadViewTest(unittest.TestCase):
     def setUp(self):
         # Every test needs a client.
         self.client = Client()
-
+        
     def test_details(self):
         # Issue a GET request.
-        response = self.client.get('/post/1')
+        response = self.client.get('/post/', {'pk':1})
 
         # Check that the response is 200 OK.
         self.assertEqual(response.status_code, 200)

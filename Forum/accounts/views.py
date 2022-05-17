@@ -6,6 +6,12 @@ from django.contrib.auth import logout
 
 # Create your views here.
 
+"""
+Summary
+Function Name: register
+Description: Takes a users info and verifies it is valid and creates a new account in the Database
+"""
+
 
 def register(request):
     if request.method == 'POST':
@@ -36,6 +42,11 @@ def register(request):
     else:
         return render(request, 'accounts/register.html')
 
+"""
+Summary
+Function Name: login
+Description: Takes a users info and verifies whether it's a valid user and if so logs them in
+"""
 def login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -53,6 +64,12 @@ def login(request):
     else:
         return render(request, 'accounts/login.html')
 
+"""
+Summary
+Function Name: dashboard
+Description: If a user is authenticated returns their post dashboard with all their posts
+"""
+
 def dashboard(request):
     username = 'guest'
     posts = None
@@ -67,6 +84,11 @@ def dashboard(request):
     
     return render(request, 'accounts/dashboard.html', context)
 
+"""
+Summary
+Function Name: dashboard
+Description: When a user logs out, redirects them to the index
+"""
 def logout_view(request):
     logout(request)
     return redirect('index')

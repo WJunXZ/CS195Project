@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from django.test import TestCase
 from django.db import IntegrityError
 from .models import Post
@@ -9,32 +8,31 @@ from django.test import Client
 
 
 class PostIntegrationTest(TestCase):
-    def setup(self):
-        User.objects.create(username='Testuser')
-        test_user = User.objects.get(username = 'Testuser')
-        Post.objects.create(user= test_user, title = "test", content="this is a test") 
+        def setup(self):
+            User.objects.create(username='Testuser')
+            test_user = User.objects.get(username = 'Testuser')
+            Post.objects.create(user= test_user, title = "test", content="this is a test") 
 
-    def test_post(self):
-   	    User.objects.create(username='TestUser')
-   	    #print(User.objects.all())
-   	    test_user = User.objects.get(username = 'TestUser')
-   	    Post.objects.create(user= test_user, title = "test", content="this is a test") 
-   	    #print(Post.objects.all())
-   	    test_post = Post.objects.get(title="test")
-   	    self.assertEqual(test_post.content, "this is a test" )
-    #
+        def test_post(self):
+            User.objects.create(username='TestUser')
+            #print(User.objects.all())
+            test_user = User.objects.get(username = 'TestUser')
+            Post.objects.create(user= test_user, title = "test", content="this is a test") 
+            #print(Post.objects.all())
+            test_post = Post.objects.get(title="test")
+            self.assertEqual(test_post.content, "this is a test" )
 
 
 class MissingUserIntegrityTest(TestCase):
 
     def test_post(self):
-    	try:
-    		Post.objects.create(user = None, title="test post title", content="test post") 
-    	except IntegrityError as e:
-    		self.assertEqual(1, 1)
+        try:
+            Post.objects.create(user = None, title="test post title", content="test post") 
+        except IntegrityError as e:
+            self.assertEqual(1, 1)
 
-    #
-=======
+
+
 from lib2to3.pgen2 import driver
 from multiprocessing.connection import Client
 from operator import contains
@@ -541,7 +539,6 @@ class StaticButtonTest(LiveServerTestCase):
         time.sleep(3)
 
         assert 'Keyword' in self.selenium.page_source
->>>>>>> upstream/main
 
 
 
@@ -550,14 +547,6 @@ class StaticButtonTest(LiveServerTestCase):
 
 
 
-<<<<<<< HEAD
-=======
-        
-
-
-
-
->>>>>>> upstream/main
 
 
 
