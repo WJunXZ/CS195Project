@@ -22,7 +22,7 @@
 <section id="new-post">
     <form action="{%url 'newpost'%}" method="POST" id="post-submit">
         {% csrf_token %}
-                <div class="post-button p-1">
+                <div class="post-button p-1" id="newpostbutton">
                     <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#newPostModal">
                         Write a New Post!
                     </button>
@@ -36,17 +36,17 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <label for="title">Title of Your Post</label>
-                                <input type="text" name="title" class="form-control" required>
+                                <input id="posttitle" type="text" name="title" class="form-control" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" >
                                 <label for="content">Content</label>
-                                <textarea class="form-control" name="postcontent" rows="3" required></textarea>
+                                <textarea  id="postcontent" class="form-control" name="postcontent" rows="3" required></textarea>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <button type="submit"class="btn btn-primary">Submit</button>
+                                <button id='submitbutton' type="submit"class="btn btn-primary">Submit</button>
                             </div>
                         </div>
                     </div>
@@ -59,7 +59,7 @@
 </section>
 
 
-<section id="posts-breadcrumb">
+<!-- <section id="posts-breadcrumb">
     <div class="nav1">
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -68,7 +68,7 @@
             </ol>
         </nav>
     </div>
-</section>
+</section> -->
 
 <br>
 
@@ -116,15 +116,15 @@
                                     </li>
                                 
                                 {%else%}
-                                    <li class="page-item">
+                                    <li class="page-item" >
                                         <a class="page-link" href="?page={{i}}">{{i}}</a>
                                     </li>
                                 {%endif%}
                             {% endfor %}
 
                             {% if posts.has_next %}
-                                <li class="page-item">
-                                    <a class="page-link" href="?page={{posts.next_page_number}}">Next</a>
+                                <li class="page-item" >
+                                    <a class="page-link" id="pageitemnext" href="?page={{posts.next_page_number}}">Next</a>
                                 </li>
                             {%else%}
                                 <li class="page-item disabled">
