@@ -48,8 +48,8 @@
                 <div class="col-sm-12 p-2">
                     <div class="card">
                         <h3 class="card-title">{{post.title}}</h3>
-                        <h2 class="card-subtitle">{{post.user.username}}</h2>
-                        <h5 class="card-body">{{post.content}}</h5>
+                        <h5 class="card-subtitle">{{post.user.username}}</h2>
+                        <p class="card-body">{{post.content}}</p>
                         <a href="{% url 'post' post.id%}">
                             <span class="link"></span>
                         </a>

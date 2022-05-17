@@ -6,6 +6,12 @@ from .models import Post
 from comments.models import Comment
 from django.contrib.auth.models import User
 
+"""
+Summary
+Function Name: index
+Description: Returns the post list page with all the posts, at 5 per page
+"""
+
 def index(request):
     posts = Post.objects.order_by('-id')
     
@@ -20,6 +26,12 @@ def index(request):
     
     
     return render(request, 'posts/post-list.html', context)
+
+"""
+Summary
+Function Name: post
+Description: Returns the post-detail page for a specific post
+"""
     
 def post(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -31,7 +43,13 @@ def post(request, post_id):
     }
     
     return render(request, 'posts/post.html', context)
-    
+
+
+"""
+Summary
+Function Name: search
+Description: Takes users search queries and returns posts macthing them
+"""    
 def search(request):
     queryset_list = Post.objects.order_by('-date_posted')
     
@@ -54,7 +72,11 @@ def search(request):
     
     return render(request, 'posts/search.html', context)
 
-
+"""
+Summary
+Function Name: newpost
+Description: Takes the info passed by a user and creates a new Post object in DB and then redirects to that post page
+"""
 def newpost(request):
     if request.method == 'POST':
         title = request.POST['title']

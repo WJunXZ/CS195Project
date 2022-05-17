@@ -3,6 +3,12 @@ from django.http import HttpResponse
 from posts.models import Post
 
 # Create your views here.
+
+"""
+Summary
+Function Name: index
+Description: Renders the index with the featured posts
+"""
 def index(request):
     posts = Post.objects.order_by('-date_posted').filter(featured=True)[:3]
     
@@ -12,5 +18,4 @@ def index(request):
     
     return render(request, 'pages/index.html', context)
 
-def about(request):
-    return render(request, 'pages/about.html')
+
